@@ -1,0 +1,65 @@
+<html>
+<head>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">	
+	<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  <script type="text/javascript">
+  $(document).ready(function(){
+	  $.get("http://localhost:8080/article/",function(data,status){
+		  	
+		  var content = "";
+		  
+		  data.forEach(function(d){
+			 content += "<tr><td>"+d.id;
+			 content += "</td><td>"+d.title;
+			  content += "</td><td>"+d.author;
+			  content += "</td><td>"+d.content;
+			  content += "</td><td><a href='form.html?id="+d.id+"' class='btn btn-success'>Edit</a>";
+				content += "</td><td><a href='#' onclick='remove("+d.id+")' class='btn btn-danger'>Delete</a>";
+				content += "</td></tr>";
+			  })
+			
+			  $("#data").html(content)
+	  })
+  })
+  function remove(id){
+	  $.ajax({
+			type:"delete",
+			url:"http://localhost:8080/article/"+id,
+			success:function(e){
+			alert("article deleted")
+			window.location.replace("/");
+			}
+			})
+	  }
+  
+  
+  
+
+  </script>
+	<title>Articles</title>
+</head>
+<body>
+	<div class="container">
+		<h1>All Articles</h1>
+		<a href="form.html" class='btn btn-primary'>New Article</a>
+					<table class="table">
+				<thead>
+					<th>id</th>
+					<th>title</th>
+					<th>author</th>
+					<th>content</th>
+					<th colspan="2">actions</th>
+				</thead>
+				<tbody id="data">
+				</tbody>
+			</table>
+	</div>
+</body>
+</html>
+
